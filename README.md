@@ -39,6 +39,30 @@ pilot-readback-evaluation/
 └── tests/
 ```
 
+## Quickstart: ADK ↔ Ollama smoke test
+
+A throwaway agent under `agents/ollama_smoke/` proves the `ADK Agent → LiteLLM → Ollama` path
+works before the real judge is built. It loads in the ADK web UI.
+
+```powershell
+# 1. Environment (Python 3.11 via uv)
+python -m pip install uv
+uv sync
+
+# 2. Pull a tiny model into the running Ollama daemon
+ollama pull qwen2.5:0.5b-instruct
+
+# 3. Launch the ADK web UI from the repo root; it discovers agents/ollama_smoke
+uv run adk web agents
+#   open http://localhost:8000, select "ollama_smoke", send a prompt
+```
+
+One-shot CLI alternative (no UI): `uv run adk run agents/ollama_smoke "Say a short ATC readback."`
+
+The model is set by `OLLAMA_MODEL` in `agents/ollama_smoke/.env` (copy from `.env.example`).
+Swap it for a hosted string (`gemini/...`, `gpt-4o-mini`, `claude-...`) to talk to an API model
+through the same agent.
+
 ## Corpus submodule
 
 The corpus is consumed as a git submodule under `corpus/`:

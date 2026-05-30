@@ -8,12 +8,15 @@ venv/
 # uv
 .uv/
 
-# Env / secrets
+# Env / secrets (matches .env at any depth, incl. agents/*/.env)
 .env
 
 # Evaluation outputs (keep the folder, ignore its contents)
 output/*
 !output/.gitkeep
+
+# ADK runtime artifacts (session store created by `adk run`/`adk web`)
+.adk/
 
 # Editor / OS
 .vscode/

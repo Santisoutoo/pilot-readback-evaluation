@@ -1,0 +1,29 @@
+[project]
+name = "pilot-readback-evaluation"
+version = "0.0.1"
+description = "Hybrid LLM-as-a-judge module for ATC pilot-readback agent responses."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "google-adk",
+    "litellm",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+# Fine-tuning a local judge (run on cloud GPU, not on this machine).
+train = [
+    "datasets",
+    "peft",
+    "trl",
+    "transformers",
+    "accelerate",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
+[tool.uv]
+package = false
