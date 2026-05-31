@@ -1,19 +1,4 @@
-"""Deterministic pre-checks for the readback judge — run OUTSIDE the model.
-
-Everything that can be verified structurally (the callsign matches, the readback
-contains the mandatory elements in a valid shape) is checked here, in the ADK
-`before_agent_callback`, NOT by the LLM. The model is left to judge only the
-qualitative aspects (phraseology, completeness).
-
-The ADK contract: `before_agent_callback(callback_context) -> Optional[Content]`.
-Returning `Content` would SKIP the model run and return that content directly —
-that is how a structurally-invalid readback can later be short-circuited without
-spending a model call. For now these are stubs (`pass`); the logic will port the
-phonetic extractors from AIrport's validate_agents.py into pilot_eval/extractors.py.
-"""
-
 from __future__ import annotations
-
 from google.adk.agents.callback_context import CallbackContext
 
 
