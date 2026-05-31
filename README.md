@@ -39,25 +39,30 @@ pilot-readback-evaluation/
 └── tests/
 ```
 
-## Quickstart: ADK ↔ Ollama smoke test
+## Quickstart: the readback judge
 
-A throwaway agent under `agents/ollama_smoke/` proves the `ADK Agent → LiteLLM → Ollama` path
-works before the real judge is built. It loads in the ADK web UI.
+The judge agent under `agents/readback_judge/` evaluates a controller instruction + pilot readback
+and returns a structured `TurnEvaluation` (JSON). Deterministic checks (callsign, structure) run in
+its `before_agent_callback`, outside the model; the model judges phraseology and completeness. It
+loads in the ADK web UI.
 
 ```powershell
 # 1. Environment (Python 3.11 via uv)
 python -m pip install uv
 uv sync
 
-# 2. Pull a tiny model into the running Ollama daemon
+# 2. Pull a model into the running Ollama daemon
 ollama pull qwen2.5:0.5b-instruct
 
-# 3. Launch the ADK web UI from the repo root; it discovers agents/ollama_smoke
+# 3. Launch the ADK web UI from the repo root; it discovers agents/readback_judge
 uv run adk web agents
-#   open http://localhost:8000, select "ollama_smoke", send a prompt
+#   open http://localhost:8000, select "readback_judge", paste a CONTROLLER + READBACK pair
 ```
 
-One-shot CLI alternative (no UI): `uv run adk run agents/ollama_smoke "Say a short ATC readback."`
+One-shot CLI alternative (no UI): `uv run adk run agents/readback_judge`
+
+The model is set by `OLLAMA_MODEL` in `agents/readback_judge/.env` (copy from `.env.example`). Swap
+it for a hosted string (`gemini/...`, `gpt-4o-mini`, `claude-...`) to judge with an API model.
 
 The model is set by `OLLAMA_MODEL` in `agents/ollama_smoke/.env` (copy from `.env.example`).
 Swap it for a hosted string (`gemini/...`, `gpt-4o-mini`, `claude-...`) to talk to an API model
